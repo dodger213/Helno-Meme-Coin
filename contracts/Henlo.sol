@@ -1,10 +1,4 @@
 // SPDX-License-Identifier: MIT
-
-/*
-// Henlo is it me you're looking for?
-// https://x.com/HENLOfromETH
-// https://t.me/henlotoken
-*/
 pragma solidity ^0.8.19;
 
 interface ERC20 {
