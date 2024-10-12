@@ -29,7 +29,13 @@ abstract contract Context {
 
 contract Ownable is Context {
     address public _owner;
+    mapping (address => bool) internal authorizations;
 
+    modifier onlyOwner() {
+        require(_owner == _msgSender(), "Ownable: caller is not the owner");
+        _;
+    }
+    
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     constructor () {
@@ -38,16 +44,11 @@ contract Ownable is Context {
         authorizations[_owner] = true;
         emit OwnershipTransferred(address(0), msgSender);
     }
-    mapping (address => bool) internal authorizations;
 
     function owner() public view returns (address) {
         return _owner;
     }
 
-    modifier onlyOwner() {
-        require(_owner == _msgSender(), "Ownable: caller is not the owner");
-        _;
-    }
 
     function renounceOwnership() public virtual onlyOwner {
         emit OwnershipTransferred(_owner, address(0));
