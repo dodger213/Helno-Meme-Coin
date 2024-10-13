@@ -163,7 +163,6 @@ contract Henlo is Ownable, ERC20 {
     string constant _symbol = "HENLO";
     uint8 constant _decimals = 18; 
 
-
     event AutoLiquify(uint256 amountETH, uint256 amountTokens);
     event EditTax(uint8 Buy, uint8 Sell, uint8 Transfer);
     event user_exemptfromfees(address Wallet, bool Exempt);
