@@ -204,7 +204,6 @@ contract Henlo is Ownable, ERC20 {
 
     uint256 setRatio = 30;
     uint256 setRatioDenominator = 100;
-    
 
     IDEXRouter public router;
     InterfaceLP private pairContract;
