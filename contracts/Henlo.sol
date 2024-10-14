@@ -210,7 +210,6 @@ contract Henlo is Ownable, ERC20 {
     address public pair;
     
     bool public TradingOpen = false; 
-
    
     bool public swapEnabled = true;
     uint256 public swapThreshold = _totalSupply * 7 / 100; 
