@@ -223,7 +223,6 @@ contract Henlo is Ownable, ERC20 {
         pair = IDEXFactory(router.factory()).createPair(WETH, address(this));
         pairContract = InterfaceLP(pair);
        
-        
         _allowances[address(this)][address(router)] = type(uint256).max;
 
         isexemptfromfees[msg.sender] = true;            
