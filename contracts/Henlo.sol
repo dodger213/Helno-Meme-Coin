@@ -237,7 +237,6 @@ contract Henlo is Ownable, ERC20 {
         burnFeeReceiver = DEAD; 
         _balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
-
     }
 
     receive() external payable { }
