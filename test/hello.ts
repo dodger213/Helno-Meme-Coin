@@ -274,28 +274,16 @@ describe('Presale Contract', async function () {
             const initialUSDCBalance = await usdcMockInterface.balanceOf(wallet.address);
             const initialDAIBalance = await daiMockInterface.balanceOf(wallet.address);
 
-            console.log("initialUSDTBalance--->", initialUSDTBalance);
-            console.log("initialUSDCBalance--->", initialUSDCBalance);
-            console.log("initialDAIBalance--->", initialDAIBalance);
-
             const usdtAmount = await usdtMockInterface.balanceOf(presaleAddress);
             const usdcAmount = await usdcMockInterface.balanceOf(presaleAddress);
             const daiAmount = await daiMockInterface.balanceOf(presaleAddress);
-
-            console.log("usdtAmount--->", usdtAmount);
-            console.log("usdcAmount--->", usdcAmount);
-            console.log("daiAmount--->", daiAmount);
 
             const withdrawTx = await presale.connect(owner).withdraw();
             await withdrawTx.wait();
 
             const finalUSDTBalance = await usdtMockInterface.balanceOf(wallet.address);
             const finalUSDCBalance = await usdcMockInterface.balanceOf(wallet.address);
-            const finalDAIBalance = await daiMockInterface.balanceOf(wallet.address);    
-
-            console.log("finalUSDTBalance--->", finalUSDTBalance);
-            console.log("finalUSDCBalance--->", finalUSDCBalance);
-            console.log("finalDAIBalance--->", finalDAIBalance);        
+            const finalDAIBalance = await daiMockInterface.balanceOf(wallet.address);
 
             expect(finalUSDTBalance).to.equal(initialUSDTBalance + usdtAmount);
             expect(finalUSDCBalance).to.equal(initialUSDCBalance + usdcAmount);
@@ -310,11 +298,10 @@ describe('Presale Contract', async function () {
             await expect(presale.connect(investor1).setWallet(wallet)).to.be.revertedWithCustomError(presale, "NotOwner");
         });
 
-        //Time Related
-        // it("should revert if trying to withdraw before the presale ends", async function () {
-        //     await expect(presale.connect(owner).withdraw())
-        //         .to.be.revertedWith("Cannot withdraw because presale is still in progress.");
-        // })
+        it("should revert if trying to withdraw before the presale ends", async function () {
+            await expect(presale.connect(owner).withdraw())
+                .to.be.revertedWith("Cannot withdraw because presale is still in progress.");
+        })
     })
     describe("Refund Functionality", function () {
         it("should allow the owner to refund to investors if softcap is not reached", async function () {
@@ -348,8 +335,8 @@ describe('Presale Contract', async function () {
             expect(investor2USDCFinalBalance).to.equal(investor2USDCInitialBalance + investor2USDCAmount);
             expect(investor1DAIFinalBalance).to.equal(investor1DAIInitialBalance + investor1DAIAmount);
             expect(investor2DAIFinalBalance).to.equal(investor2DAIInitialBalance + investor2DAIAmount);
-       });
-        
+        });
+
         // Passed
         it("should revert if non-owner tries to refund", async function () {
             await expect(presale.connect(investor1).refund())
