@@ -41,19 +41,9 @@ describe('Presale Contract', async function () {
         presaleSupply = (await helno.totalSupply()) * BigInt(presaleTokenPercent) / BigInt(100);
 
         await helno.connect(owner).approve(presaleAddress, presaleSupply);
-        const ownerBalanceBefore = await helno.balanceOf(owner.address);
-        const presaleBalanceBefore = await helno.balanceOf(presaleAddress);
 
         const tx = await presale.connect(owner).transferTokensToPresale(presaleSupply);
         await tx.wait();
-
-        const ownerBalanceAfter = await helno.balanceOf(owner.address);
-        const presaleBalanceAfter = await helno.balanceOf(presaleAddress);
-
-        console.log("Sender Balance Before--->", ownerBalanceBefore.toString());
-        console.log("Presale Balance Before--->", presaleBalanceBefore.toString());
-        console.log("Sender Balance After--->", ownerBalanceAfter.toString());
-        console.log("Presale Balance After--->", presaleBalanceAfter.toString());
 
         const erc20Mock = await ethers.getContractFactory("ERC20Mock");
         usdtMockInterface = erc20Mock.attach(SEPOLIA_USDT);
