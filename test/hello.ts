@@ -182,14 +182,14 @@ describe('Presale Contract', async function () {
             expect(tokensAvailableAfterTx).to.equal(tokensAvailableBeforeTx - tokenAmount);
         });
 
-        // it("should not allow investors buying FICCO tokens with DAI before presale starts", async function () {
-        //     const tokenAmount = ethers.parseUnits("1500000", 18); //1,500,000 FICCO token
-        //     await expect(presale.connect(investor1).buyWithDAI(tokenAmount)).to.be.revertedWith("Invalid time for buying the token.");
-        // });
-        // it("should not allow investors buying FICCO tokens with DAI after presale ends", async function () {
-        //     const tokenAmount = ethers.parseUnits("1500000", 18); //1,500,000 tokens
-        //     await expect(presale.connect(investor1.address).buyWithDAI(tokenAmount)).to.be.revertedWith("Invalid time for buying the token.");
-        // })
+        it("should not allow investors buying FICCO tokens with DAI before presale starts", async function () {
+            const tokenAmount = ethers.parseUnits("1500000", 18); //1,500,000 FICCO token
+            await expect(presale.connect(investor1).buyWithDAI(tokenAmount)).to.be.revertedWith("Invalid time for buying the token.");
+        });
+        it("should not allow investors buying FICCO tokens with DAI after presale ends", async function () {
+            const tokenAmount = ethers.parseUnits("1500000", 18); //1,500,000 tokens
+            await expect(presale.connect(investor1.address).buyWithDAI(tokenAmount)).to.be.revertedWith("Invalid time for buying the token.");
+        })
     });
 
     describe("Buying FICCO with ETH", function () {
