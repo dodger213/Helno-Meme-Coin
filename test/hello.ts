@@ -231,10 +231,10 @@ describe('Presale Contract', async function () {
             await presale.connect(owner).setClaimTime(claimTime);
         });
 
-        // it("should revert if trying to claim tokens before claim time is set", async function () {
-        //     await presale.connect(investor1).buyWithUSDT(ethers.parseUnits("1500000", 18));
-        //     await expect(presale.connect(investor1).claim(investor1.address)).to.be.revertedWith("It's not claiming time yet.");
-        // });
+        it("should revert if trying to claim tokens before claim time is set", async function () {
+            await presale.connect(investor1).buyWithUSDT(ethers.parseUnits("1500000", 18));
+            await expect(presale.connect(investor1).claim(investor1.address)).to.be.revertedWith("It's not claiming time yet.");
+        });
 
         it("should allow investors to claim their tokens", async function () {
             const initialBalance = await helno.balanceOf(investor1.address);
@@ -260,7 +260,6 @@ describe('Presale Contract', async function () {
             expect(await presale.isEarlyInvestors(investor2.address)).to.be.true;
         });
 
-        //Passed
         it("should revert if a non-owner tries to set the claim time", async function () {
             await expect(presale.connect(investor1).setClaimTime(claimTime)).to.be.revertedWithCustomError(presale, "NotOwner");
         });
