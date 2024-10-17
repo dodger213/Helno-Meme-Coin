@@ -217,12 +217,12 @@ describe('Presale Contract', async function () {
             expect(tokensAvailableAfterTx).to.equal(tokensAvailableBeforeTx - tokenAmount);
         });
 
-        // it("should not allow investors buying FICCO tokens before presale starts", async function () {
-        //     await expect(presale.connect(investor1).buyWithETH({ value: ethers.parseEther("1") })).to.be.revertedWith("Invalid time for buying the token.")
-        // })
-        // it("should not allow investors buying FICCO tokens after presal ends", async function () {
-        //     await expect(presale.connect(investor1).buyWithETH({ value: ethers.parseEther("1") })).to.be.revertedWith("Invalid time for buying the token.");
-        // });
+        it("should not allow investors buying FICCO tokens before presale starts", async function () {
+            await expect(presale.connect(investor1).buyWithETH({ value: ethers.parseEther("1") })).to.be.revertedWith("Invalid time for buying the token.")
+        })
+        it("should not allow investors buying FICCO tokens after presal ends", async function () {
+            await expect(presale.connect(investor1).buyWithETH({ value: ethers.parseEther("1") })).to.be.revertedWith("Invalid time for buying the token.");
+        });
     });
 
     describe("Claim functionality", function () {
