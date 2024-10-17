@@ -196,18 +196,12 @@ describe('Presale Contract', async function () {
         it("should allow investors buying FICCO tokens with ETH.", async function () {
             const ethAmount = ethers.parseEther("0.2"); //0.2 eth
             const tokenAmount = await presale.estimatedTokenAmountAvailableWithETH(ethAmount);
-            console.log("tokenAmount----->", tokenAmount);
             const usdtAmount = await presale.estimatedCoinAmountForTokenAmount(tokenAmount, usdtMockInterface);
-            console.log("usdtAmount------>", usdtAmount);
 
             const investmentsforUserBeforeTx = await presale.getInvestments(investor1.address, SEPOLIA_USDT);
             const fundsRaisedBeforeTx = await presale.getFundsRaised();
             const investorTokenBalanceBeforeTx = await presale.getTokenAmountForInvestor(investor1.address);
             const tokensAvailableBeforeTx = await presale.tokensAvailable();
-            console.log("investmentsforUserBeforeTx---->", investmentsforUserBeforeTx);
-            console.log("fundsRaisedBeforeTx---->", fundsRaisedBeforeTx);
-            console.log("investorTokenBalanceBeforeTx---->", investorTokenBalanceBeforeTx);
-            console.log("tokensAvailableBeforeTx---->", tokensAvailableBeforeTx);
 
             const tx = await presale.connect(investor1).buyWithETH({ value: ethAmount });
             await tx.wait();
@@ -216,11 +210,6 @@ describe('Presale Contract', async function () {
             const fundsRaisedAfterTx = await presale.getFundsRaised();
             const investorTokenBalanceAfterTx = await presale.getTokenAmountForInvestor(investor1.address);
             const tokensAvailableAfterTx = await presale.tokensAvailable();
-
-            console.log("investmentsforUserAfterTx---->", investmentsforUserAfterTx);
-            console.log("fundsRaisedAfterTx---->", fundsRaisedAfterTx);
-            console.log("investorTokenBalanceAfterTx---->", investorTokenBalanceAfterTx);
-            console.log("tokensAvailableAfterTx---->", tokensAvailableAfterTx);
 
             expect(investmentsforUserAfterTx).to.equal(investmentsforUserBeforeTx + usdtAmount);
             expect(fundsRaisedAfterTx).to.equal(fundsRaisedBeforeTx + usdtAmount / BigInt(1000000));
