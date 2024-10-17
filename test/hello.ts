@@ -5,7 +5,7 @@ import { ethers } from "hardhat";
 describe('Presale Contract', async function () {
 
     let presale: any;
-    let ficco: any;
+    let helno: any;
     let usdtMockInterface: any;
     let usdcMockInterface: any;
     let daiMockInterface: any;
@@ -19,7 +19,7 @@ describe('Presale Contract', async function () {
     const claimTime = Date.now();
     const presaleTokenPercent = 10;
 
-    const ficcoAddress = "0x5e84d65BF523f59B37a75c092B913Cbb9b8B02E3";
+    const helnoAddress = "0x5e84d65BF523f59B37a75c092B913Cbb9b8B02E3";
     const presaleAddress = "0x38b11dd63142916c984750880ab2Ecb763A44bCC";
 
     const SEPOLIA_USDT = "0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0"; // Checksummed address for USDT
@@ -30,25 +30,25 @@ describe('Presale Contract', async function () {
         [owner, investor1, investor2, wallet] = await ethers.getSigners();
 
         //Attach FICCO token contract
-        const FICCO = await ethers.getContractFactory("FICCO");
-        ficco = FICCO.attach(ficcoAddress); // Attach to the existing contract
+        const HELNO = await ethers.getContractFactory("HELNO");
+        helno = HELNO.attach(helnoAddress); // Attach to the existing contract
 
         //Attach Presale contract
         const Presale = await ethers.getContractFactory("Presale");
         presale = Presale.attach(presaleAddress);
 
         presaleStartTime = await presale.getPresaleStartTime();
-        presaleSupply = (await ficco.totalSupply()) * BigInt(presaleTokenPercent) / BigInt(100);
+        presaleSupply = (await helno.totalSupply()) * BigInt(presaleTokenPercent) / BigInt(100);
 
-        await ficco.connect(owner).approve(presaleAddress, presaleSupply);
-        const ownerBalanceBefore = await ficco.balanceOf(owner.address);
-        const presaleBalanceBefore = await ficco.balanceOf(presaleAddress);
+        await helno.connect(owner).approve(presaleAddress, presaleSupply);
+        const ownerBalanceBefore = await helno.balanceOf(owner.address);
+        const presaleBalanceBefore = await helno.balanceOf(presaleAddress);
 
         const tx = await presale.connect(owner).transferTokensToPresale(presaleSupply);
         await tx.wait();
 
-        const ownerBalanceAfter = await ficco.balanceOf(owner.address);
-        const presaleBalanceAfter = await ficco.balanceOf(presaleAddress);
+        const ownerBalanceAfter = await helno.balanceOf(owner.address);
+        const presaleBalanceAfter = await helno.balanceOf(presaleAddress);
 
         console.log("Sender Balance Before--->", ownerBalanceBefore.toString());
         console.log("Presale Balance Before--->", presaleBalanceBefore.toString());
@@ -261,11 +261,11 @@ describe('Presale Contract', async function () {
         // });
 
         it("should allow investors to claim their tokens", async function () {
-            const initialBalance = await ficco.balanceOf(investor1.address);
+            const initialBalance = await helno.balanceOf(investor1.address);
             const tokenAmount = await presale.getTokenAmountForInvestor(investor1.address);
             const claimTx = await presale.connect(investor1).claim(investor1.address);
             await claimTx.wait();
-            const finalBalance = await ficco.balanceOf(investor1.address);
+            const finalBalance = await helno.balanceOf(investor1.address);
 
             expect(finalBalance - initialBalance).to.equal(tokenAmount);
             expect(await presale.getTokenAmountForInvestor(investor1.address)).to.equal(0);
