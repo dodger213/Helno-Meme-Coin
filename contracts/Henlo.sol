@@ -263,6 +263,7 @@ contract Henlo is Ownable, ERC20 {
     constructor() {
         router = IDEXRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D); // Ethereum Mainnet
         // router = IDEXRouter(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506 ); // BNB testnet
+        
         WETH = router.WETH();
         pair = IDEXFactory(router.factory()).createPair(WETH, address(this));
         pairContract = InterfaceLP(pair);
@@ -284,7 +285,7 @@ contract Henlo is Ownable, ERC20 {
     }
 
     receive() external payable {}
-    
+
     function totalSupply() external view override returns (uint256) {
         return _totalSupply;
     }
