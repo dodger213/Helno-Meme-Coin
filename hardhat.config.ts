@@ -4,8 +4,8 @@ import "dotenv/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-chai-matchers";
 
-const infuraKey = process.env.INFURA_API_KEY;
-const privateKey = process.env.PRIVATE_KEY?process.env.PRIVATE_KEY:"";
+const infuraKey: string = process.env.INFURA_API_KEY as string;
+const privateKey: string = process.env.PRIVATE_KEY ? process.env.PRIVATE_KEY as string: "";
 const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.24",
@@ -30,16 +30,16 @@ const config: HardhatUserConfig = {
       url: `https://data-seed-prebsc-1-s1.binance.org:8545`,
       accounts: [privateKey],
     },
-    bnb_mainnet:{
+    bnb_mainnet: {
       url: "https://bsc-dataseed.binance.org/",
-      accounts:[privateKey],
+      accounts: [privateKey],
     },
     hardhat: {
       chainId: 31337,
     },
   },
   etherscan: {
-    apiKey: 
+    apiKey:
       "1UME8V5UP4AZHYDF7RWC78GTIXXRPJHTQY" // etherscan: ED2NED96C214Y891MR98PZZ1Q45VTFYZRV BSC: 1UME8V5UP4AZHYDF7RWC78GTIXXRPJHTQY
   },
   gasReporter: {
