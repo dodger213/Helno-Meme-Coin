@@ -337,15 +337,14 @@ describe('Presale Contract', async function () {
             expect(investor2DAIFinalBalance).to.equal(investor2DAIInitialBalance + investor2DAIAmount);
         });
 
-        // Passed
         it("should revert if non-owner tries to refund", async function () {
             await expect(presale.connect(investor1).refund())
                 .to.be.revertedWithCustomError(presale, "NotOwner");
         });
 
-        // it("should revert if trying to refund before the presale ends", async function () {
-        //     await expect(presale.connect(owner).refund())
-        //         .to.be.revertedWith("Cannot refund because presale is still in progress.");
-        // })
+        it("should revert if trying to refund before the presale ends", async function () {
+            await expect(presale.connect(owner).refund())
+                .to.be.revertedWith("Cannot refund because presale is still in progress.");
+        })
     });
 })
