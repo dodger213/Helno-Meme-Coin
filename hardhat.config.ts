@@ -6,6 +6,9 @@ import "@nomicfoundation/hardhat-chai-matchers";
 
 const infuraKey: string = process.env.INFURA_API_KEY as string;
 const privateKey: string = process.env.PRIVATE_KEY ? process.env.PRIVATE_KEY as string: "";
+const etherscanKey: string = process.env.ETHERSCAN_KEY ? process.env.ETHERSCAN_KEY as string : "";
+const bscscanKey: string = process.env.BSCSCAN_KEY ? process.env.BSCSCAN_KEY as string : "";
+
 const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.24",
@@ -39,8 +42,12 @@ const config: HardhatUserConfig = {
     },
   },
   etherscan: {
-    apiKey:
-      "1UME8V5UP4AZHYDF7RWC78GTIXXRPJHTQY" // etherscan: ED2NED96C214Y891MR98PZZ1Q45VTFYZRV BSC: 1UME8V5UP4AZHYDF7RWC78GTIXXRPJHTQY
+    apiKey: {
+      mainnet: etherscanKey,
+      sepolia: etherscanKey,
+      bnb_testnet: bscscanKey,
+      bnb_mainnet: bscscanKey,
+    },
   },
   gasReporter: {
     enabled: true,
